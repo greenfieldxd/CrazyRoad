@@ -49,3 +49,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e90fa19a36b7c524484bb541cd8ef506, type: 2}
   - {fileID: 11400000, guid: 0cec4488eee51704c8866f4cf4d8621c, type: 2}
   currentPosition: {x: 0, y: 0, z: 0}
+  terrainHolder: {fileID: 0}

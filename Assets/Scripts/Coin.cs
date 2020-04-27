@@ -12,9 +12,10 @@ public class Coin : MonoBehaviour
         gm = FindObjectOfType<GameManager>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider other)
     {
         gm.AddCoin();
         Destroy(gameObject);
     }
+    
 }

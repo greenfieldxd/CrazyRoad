@@ -54,6 +54,8 @@ MonoBehaviour:
   - {fileID: 4593396455205830399, guid: c97be81f7ddf2fc45a0eb258c24c2af6, type: 3}
   - {fileID: 9070290024151383429, guid: 6bb8b0a8ee8350648ad197c72de969c7, type: 3}
   coin: {fileID: 2498133403772089792, guid: 459458b40ef48420a9c03e113c254332, type: 3}
+  treesHolder: {fileID: 0}
+  coinHolder: {fileID: 0}
 --- !u!33 &2192995428963446625
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Lean.Touch;
 
 public class Player : MonoBehaviour
 {
     public float moveDelay = 0.8f;
     public int stepPoint;
-        
+
     float endPos;
 
     Animator anim;
@@ -23,6 +24,54 @@ public class Player : MonoBehaviour
 
         terrainGeneration = FindObjectOfType<TerrainGeneration>();
         gm = FindObjectOfType<GameManager>();
+        
+        gm.NewGame();
+    }
+
+    public void MoveWithTap()
+    {
+        endPos = transform.position.z + 1;
+
+        rb.DOMoveZ(endPos, moveDelay, false);
+        anim.SetTrigger("Jump");
+
+        terrainGeneration.SpawnTerrain();
+        gm.AddScore(stepPoint);
+    }
+
+    public void Up()
+    {
+        endPos = transform.position.z + 1;
+
+        rb.DOMoveZ(endPos, moveDelay, false);
+        anim.SetTrigger("Jump");
+
+        terrainGeneration.SpawnTerrain();
+        gm.AddScore(stepPoint);
+    }
+
+    public void Down()
+    {
+        endPos = transform.position.z - 1;
+
+        rb.DOMoveZ(endPos, moveDelay, false);
+        anim.SetTrigger("Jump");
+    }
+
+    public void Right()
+    {
+        endPos = transform.position.x + 1;
+
+        rb.DOMoveX(endPos, moveDelay, false);
+        anim.SetTrigger("Jump");
+    }
+
+    public void Left()
+    {
+        endPos = transform.position.x - 1;
+
+        rb.DOMoveX(endPos, moveDelay, false);
+        anim.SetTrigger("Jump");
     }
 
     // Update is called once per frame
@@ -32,43 +81,34 @@ public class Player : MonoBehaviour
 
     }
 
+
     private void KeyBoardInput() //KeyBoard Move
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            endPos = transform.position.z + 1;
-
-            rb.DOMoveZ(endPos, moveDelay, false);
-            anim.SetTrigger("Jump");
-
-            terrainGeneration.SpawnTerrain();
-            gm.AddScore(stepPoint);
+            Up();
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            endPos = transform.position.z - 1;
-
-            rb.DOMoveZ(endPos, moveDelay, false);
-            anim.SetTrigger("Jump");
+            Down();
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            endPos = transform.position.x + 1;
-
-            rb.DOMoveX(endPos, moveDelay, false);
-            anim.SetTrigger("Jump");
+            Right();
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            endPos = transform.position.x - 1;
-
-            rb.DOMoveX(endPos, moveDelay, false);
-            anim.SetTrigger("Jump");
+            Left();
         }
+
+       
+
+        
+
     }
 
 
-    
+
 
 
 

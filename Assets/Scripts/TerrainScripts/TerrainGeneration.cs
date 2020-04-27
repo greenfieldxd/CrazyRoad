@@ -11,6 +11,7 @@ public class TerrainGeneration : MonoBehaviour
 
     List<GameObject> currentTerrains = new List<GameObject>();
     [HideInInspector] public Vector3 currentPosition = new Vector3(0, 0, 0);
+    [SerializeField] Transform terrainHolder;
 
 
 
@@ -34,7 +35,7 @@ public class TerrainGeneration : MonoBehaviour
         int terrainSuccession = Random.Range(1, terrainsDatas[whichTerrain].maxInSuccession);
         for (int i = 0; i < terrainSuccession; i++)
         {
-            GameObject terrain = Instantiate(terrainsDatas[whichTerrain].terrain, currentPosition, Quaternion.identity);
+            GameObject terrain = Instantiate(terrainsDatas[whichTerrain].terrain, currentPosition, Quaternion.identity, terrainHolder);
             currentTerrains.Add(terrain);
             
             currentPosition.z++;

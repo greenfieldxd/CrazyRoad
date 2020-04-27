@@ -5,10 +5,12 @@ using UnityEngine;
 public class GrassScript : MonoBehaviour
 {
     [Header("in percent %")]
-    public float chance;
+    [SerializeField] float chance;
 
-    public GameObject[] trees;
-    public GameObject coin;
+    [SerializeField] GameObject[] trees;
+    [SerializeField] GameObject coin;
+
+   
 
 
     // Start is called before the first frame update
@@ -19,11 +21,6 @@ public class GrassScript : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
 
     private void CreateTrees()
@@ -33,14 +30,13 @@ public class GrassScript : MonoBehaviour
             int randomX;
             randomX = Random.Range(-18, 19);
             Vector3 newPosition = new Vector3(randomX, 1, transform.position.z);
-            Instantiate(tree, newPosition, Quaternion.identity);
+            Lean.Pool.LeanPool.Spawn(tree, newPosition, Quaternion.identity);
         }
     }
 
     void CreateCoin()
     {
         float randomValue = Random.value;
-        Debug.Log(randomValue);
         if (randomValue < chance)
         {
             int randomX;
@@ -48,7 +44,8 @@ public class GrassScript : MonoBehaviour
             Vector3 newPosition = new Vector3(randomX, 1, transform.position.z);
 
 
-            Instantiate(coin, newPosition, coin.transform.rotation);
+            Lean.Pool.LeanPool.Spawn(coin, newPosition, coin.transform.rotation);
+
         }
     }
 }

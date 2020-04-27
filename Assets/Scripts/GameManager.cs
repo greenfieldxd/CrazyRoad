@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public int score;
+    public int coins;
+
     public GameObject startPlayerPos;
     public Text textScore;
     public Text textCoin;
 
-    int score;
-    int coins;
     float gameDistance = 0;
 
     SceneLoader sceneLoader;
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
 
         score = 0;
+        coins = 0;
         textScore.text = "Score: " + score;
         textCoin.text = "0";
 
@@ -70,7 +72,20 @@ public class GameManager : MonoBehaviour
         textCoin.text = " " + coins; // update Coins on scene
     }
 
+    public void NewGame()
+    {
+        sceneLoader = FindObjectOfType<SceneLoader>(); //Find SceneLoader on scene
+        player = FindObjectOfType<Player>();
 
+        gameDistance = 0;
+        score = 0;
+        coins = 0;
+        textScore.text = "Score: " + score;
+        textCoin.text = "0";
+
+        Canvas canvas = GetComponentInChildren<Canvas>();
+        canvas.enabled = true;
+    }
     
 
 }
