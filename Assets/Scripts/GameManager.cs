@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
 
     float gameDistance = 0;
 
-    SceneLoader sceneLoader;
     Player player;
 
 
@@ -32,7 +31,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        sceneLoader = FindObjectOfType<SceneLoader>(); //Find SceneLoader on scene
         player = FindObjectOfType<Player>();
 
         score = 0;
@@ -74,7 +72,6 @@ public class GameManager : MonoBehaviour
 
     public void NewGame()
     {
-        sceneLoader = FindObjectOfType<SceneLoader>(); //Find SceneLoader on scene
         player = FindObjectOfType<Player>();
 
         gameDistance = 0;

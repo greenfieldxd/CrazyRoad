@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    GameManager gm;
+    [SerializeField] AudioClip coinSound;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        gm = FindObjectOfType<GameManager>();
-    }
 
     private void OnTriggerEnter(Collider other)
     {
+         GameManager gm = FindObjectOfType<GameManager>();
+
+        Player player = FindObjectOfType<Player>();
+        AudioSource audio = player.GetComponent<AudioSource>();
+
+        audio.PlayOneShot(coinSound);
         gm.AddCoin();
         Destroy(gameObject);
     }

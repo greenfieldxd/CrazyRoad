@@ -16,14 +16,14 @@ public class GameResult : MonoBehaviour
     {
         gm = FindObjectOfType<GameManager>();
 
-        Canvas canvas = gm.GetComponentInChildren<Canvas>();
+        Canvas canvas = gm.GetComponentInChildren<Canvas>();//enable false game Canvas
         canvas.enabled = false;
 
         int newScore = gm.score;
-        int bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        int bestScore = PlayerPrefs.GetInt("BestScore", 0); //get bestScore
 
         int newCoins = gm.coins;
-        int allCoins = PlayerPrefs.GetInt("Coins", 0);
+        int allCoins = PlayerPrefs.GetInt("Coins", 0); //get coins
 
         PlayerPrefs.SetInt("Coins", allCoins + newCoins);
 
@@ -37,6 +37,21 @@ public class GameResult : MonoBehaviour
         bestScoreText.text = "Best score is: " + bestScore;
         allCoinsText.text = "" + allCoins;
 
+    }
+
+    public void SoundOn()
+    {
+        PlayerPrefs.SetInt("Music", 1);
+
+        AudioSource music = gm.GetComponentInChildren<AudioSource>();
+        music.enabled = true;
+    }
+    public void SoundOff()
+    {
+        PlayerPrefs.SetInt("Music", 0);
+
+        AudioSource music = gm.GetComponentInChildren<AudioSource>();
+        music.enabled = false;
     }
 
 

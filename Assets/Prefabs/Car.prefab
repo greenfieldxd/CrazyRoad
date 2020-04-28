@@ -204,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70ebf77dfc3133443a1788fbbea74202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carSound: {fileID: 8300000, guid: 9f4ff5b61d18b30488bc1ca566ae1367, type: 3}
 --- !u!65 &4352408283734080752
 BoxCollider:
   m_ObjectHideFlags: 0

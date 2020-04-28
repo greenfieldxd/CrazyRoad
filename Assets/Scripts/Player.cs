@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 
     Animator anim;
     Rigidbody rb;
+    AudioClip playerSound;
 
     TerrainGeneration terrainGeneration;
     GameManager gm;
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
 
         terrainGeneration = FindObjectOfType<TerrainGeneration>();
         gm = FindObjectOfType<GameManager>();
+        AudioSource audio = gm.GetComponentInChildren<AudioSource>();
         
         gm.NewGame();
     }
@@ -35,6 +37,7 @@ public class Player : MonoBehaviour
         rb.DOMoveZ(endPos, moveDelay, false);
         anim.SetTrigger("Jump");
 
+        
         terrainGeneration.SpawnTerrain();
         gm.AddScore(stepPoint);
     }
@@ -45,6 +48,8 @@ public class Player : MonoBehaviour
 
         rb.DOMoveZ(endPos, moveDelay, false);
         anim.SetTrigger("Jump");
+        
+
 
         terrainGeneration.SpawnTerrain();
         gm.AddScore(stepPoint);
@@ -56,6 +61,7 @@ public class Player : MonoBehaviour
 
         rb.DOMoveZ(endPos, moveDelay, false);
         anim.SetTrigger("Jump");
+
     }
 
     public void Right()
@@ -64,6 +70,7 @@ public class Player : MonoBehaviour
 
         rb.DOMoveX(endPos, moveDelay, false);
         anim.SetTrigger("Jump");
+
     }
 
     public void Left()
@@ -72,6 +79,7 @@ public class Player : MonoBehaviour
 
         rb.DOMoveX(endPos, moveDelay, false);
         anim.SetTrigger("Jump");
+
     }
 
     // Update is called once per frame
