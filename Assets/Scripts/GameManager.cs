@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
         textScore.text = "Score: " + score;
         textCoin.text = "0";
 
+        UpdateSounds();
+
         DontDestroyOnLoad(gameObject);
 
     }
@@ -82,6 +84,22 @@ public class GameManager : MonoBehaviour
 
         Canvas canvas = GetComponentInChildren<Canvas>();
         canvas.enabled = true;
+    }
+
+    void UpdateSounds()
+    {
+        int soundParam = PlayerPrefs.GetInt("Music", 1);
+
+        if (soundParam == 0)
+        {
+            AudioSource music = GetComponentInChildren<AudioSource>();
+            music.enabled = false;
+        }
+        else if(soundParam == 1)
+        {
+            AudioSource music = GetComponentInChildren<AudioSource>();
+            music.enabled = true;
+        }
     }
     
 

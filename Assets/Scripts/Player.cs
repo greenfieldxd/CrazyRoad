@@ -13,19 +13,20 @@ public class Player : MonoBehaviour
 
     Animator anim;
     Rigidbody rb;
-    AudioClip playerSound;
 
     TerrainGeneration terrainGeneration;
     GameManager gm;
+    AudioSource audio;
 
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
+        audio = GetComponent<AudioSource>();
+
 
         terrainGeneration = FindObjectOfType<TerrainGeneration>();
         gm = FindObjectOfType<GameManager>();
-        AudioSource audio = gm.GetComponentInChildren<AudioSource>();
         
         gm.NewGame();
     }
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour
 
         rb.DOMoveZ(endPos, moveDelay, false);
         anim.SetTrigger("Jump");
+        audio.Play();
 
         
         terrainGeneration.SpawnTerrain();
@@ -48,7 +50,8 @@ public class Player : MonoBehaviour
 
         rb.DOMoveZ(endPos, moveDelay, false);
         anim.SetTrigger("Jump");
-        
+        audio.Play();
+
 
 
         terrainGeneration.SpawnTerrain();
@@ -61,6 +64,7 @@ public class Player : MonoBehaviour
 
         rb.DOMoveZ(endPos, moveDelay, false);
         anim.SetTrigger("Jump");
+        audio.Play();
 
     }
 
@@ -70,6 +74,7 @@ public class Player : MonoBehaviour
 
         rb.DOMoveX(endPos, moveDelay, false);
         anim.SetTrigger("Jump");
+        audio.Play();
 
     }
 
@@ -79,6 +84,7 @@ public class Player : MonoBehaviour
 
         rb.DOMoveX(endPos, moveDelay, false);
         anim.SetTrigger("Jump");
+        audio.Play();
 
     }
 

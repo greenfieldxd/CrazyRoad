@@ -1234,6 +1234,8 @@ MonoBehaviour:
   resultText: {fileID: 139157071}
   bestScoreText: {fileID: 251323425}
   allCoinsText: {fileID: 847973686}
+  onButton: {fileID: 324306980}
+  offButton: {fileID: 1223176293}
 --- !u!4 &1810888273
 Transform:
   m_ObjectHideFlags: 0

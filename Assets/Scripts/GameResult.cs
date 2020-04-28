@@ -9,6 +9,9 @@ public class GameResult : MonoBehaviour
     [SerializeField] Text bestScoreText;
     [SerializeField] Text allCoinsText;
 
+    [SerializeField] Button onButton;
+    [SerializeField] Button offButton;
+
     GameManager gm;
 
     // Start is called before the first frame update
@@ -37,6 +40,8 @@ public class GameResult : MonoBehaviour
         bestScoreText.text = "Best score is: " + bestScore;
         allCoinsText.text = "" + allCoins;
 
+        UpdateBattons();
+
     }
 
     public void SoundOn()
@@ -54,6 +59,20 @@ public class GameResult : MonoBehaviour
         music.enabled = false;
     }
 
+    void UpdateBattons()
+    {
+        int soundParam = PlayerPrefs.GetInt("Music", 1);
 
+        if (soundParam == 0)
+        {
+            offButton.gameObject.SetActive(false);
+            onButton.gameObject.SetActive(true);
+        }
+        else if (soundParam == 1)
+        {
+            offButton.gameObject.SetActive(true);
+            onButton.gameObject.SetActive(false);
+        }
+    }
 
 }
