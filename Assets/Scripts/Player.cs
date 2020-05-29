@@ -1,58 +1,53 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
-using Lean.Touch;
 
 public class Player : MonoBehaviour
 {
-    public float moveDelay = 0.8f;
     public int stepPoint;
+    [SerializeField] float moveTime = 0.8f;
+    [SerializeField] float jumpForce = 0.6f;
 
-    float endPos;
+    [SerializeField] TerrainGeneration terrainGeneration;
+    [SerializeField] GameManager gm;
+    [SerializeField] AudioSource audioSource;
 
-    Animator anim;
-    Rigidbody rb;
-
-    TerrainGeneration terrainGeneration;
-    GameManager gm;
-    AudioSource audio;
+    bool input;
 
     private void Start()
     {
-        anim = GetComponentInChildren<Animator>();
-        rb = GetComponent<Rigidbody>();
-        audio = GetComponent<AudioSource>();
-
-
-        terrainGeneration = FindObjectOfType<TerrainGeneration>();
-        gm = FindObjectOfType<GameManager>();
-        
         gm.NewGame();
+        input = true;
+    }
+
+    void Update()
+    {
+        if (!input)
+        {
+            return;
+        }
+
+        KeyBoardInput();
+
     }
 
     public void MoveWithTap()
     {
-        endPos = transform.position.z + 1;
+        Vector3 endPos = transform.position + Vector3.forward;
 
-        rb.DOMoveZ(endPos, moveDelay, false);
-        anim.SetTrigger("Jump");
-        audio.Play();
+        MovePlayer(endPos);
+        audioSource.Play();
 
-        
         terrainGeneration.SpawnTerrain();
         gm.AddScore(stepPoint);
     }
 
+
     public void Up()
     {
-        endPos = transform.position.z + 1;
+        Vector3 endPos = transform.position + Vector3.forward;
 
-        rb.DOMoveZ(endPos, moveDelay, false);
-        anim.SetTrigger("Jump");
-        audio.Play();
-
-
+        MovePlayer(endPos);
+        audioSource.Play();
 
         terrainGeneration.SpawnTerrain();
         gm.AddScore(stepPoint);
@@ -60,39 +55,45 @@ public class Player : MonoBehaviour
 
     public void Down()
     {
-        endPos = transform.position.z - 1;
+        Vector3 endPos = transform.position + Vector3.back;
 
-        rb.DOMoveZ(endPos, moveDelay, false);
-        anim.SetTrigger("Jump");
-        audio.Play();
+        MovePlayer(endPos);
+
+        audioSource.Play();
 
     }
 
     public void Right()
     {
-        endPos = transform.position.x + 1;
+        Vector3 endPos = transform.position + Vector3.right;
 
-        rb.DOMoveX(endPos, moveDelay, false);
-        anim.SetTrigger("Jump");
-        audio.Play();
+        MovePlayer(endPos);
+        
+        audioSource.Play();
 
     }
 
     public void Left()
     {
-        endPos = transform.position.x - 1;
+        Vector3 endPos = transform.position + Vector3.left;
 
-        rb.DOMoveX(endPos, moveDelay, false);
-        anim.SetTrigger("Jump");
-        audio.Play();
+        MovePlayer(endPos);
+        
+        GetComponent<AudioSource>().Play();
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        KeyBoardInput();
 
+    void MovePlayer(Vector3 endPos)
+    {
+        input = false;
+        transform.DOJump(endPos, jumpForce, 1, moveTime).OnComplete(ResetInput);
+
+    }
+
+    void ResetInput()
+    {
+        input = true;
     }
 
 
@@ -114,16 +115,7 @@ public class Player : MonoBehaviour
         {
             Left();
         }
-
-       
-
-        
-
     }
-
-
-
-
 
 
 

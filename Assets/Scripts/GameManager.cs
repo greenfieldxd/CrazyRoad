@@ -5,16 +5,17 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public int score;
-    public int coins;
+    [HideInInspector] public int score { get; private set; }
+    [HideInInspector] public int coins { get; private set; }
 
-    public GameObject startPlayerPos;
-    public Text textScore;
-    public Text textCoin;
+    [SerializeField] GameObject startPlayerPos;
+    [SerializeField] Text textScore;
+    [SerializeField] Text textCoin;
+
+    [SerializeField]Player player;
 
     float gameDistance = 0;
 
-    Player player;
 
 
 
@@ -31,8 +32,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        player = FindObjectOfType<Player>();
-
         score = 0;
         coins = 0;
         textScore.text = "Score: " + score;

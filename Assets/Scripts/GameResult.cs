@@ -27,6 +27,7 @@ public class GameResult : MonoBehaviour
 
         int newCoins = gm.coins;
         int allCoins = PlayerPrefs.GetInt("Coins", 0); //get coins
+        allCoins += newCoins;
 
         PlayerPrefs.SetInt("Coins", allCoins + newCoins);
 
@@ -40,7 +41,7 @@ public class GameResult : MonoBehaviour
         bestScoreText.text = "Best score is: " + bestScore;
         allCoinsText.text = "" + allCoins;
 
-        UpdateBattons();
+        UpdateButtons();
 
     }
 
@@ -59,7 +60,7 @@ public class GameResult : MonoBehaviour
         music.enabled = false;
     }
 
-    void UpdateBattons()
+    void UpdateButtons()
     {
         int soundParam = PlayerPrefs.GetInt("Music", 1);
 
