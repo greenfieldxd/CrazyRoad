@@ -8,12 +8,8 @@ public class Car : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Player player = FindObjectOfType<Player>();
-        AudioSource audio = player.GetComponent<AudioSource>();
-        SceneLoader sceneLoder = FindObjectOfType<SceneLoader>();
-
-        audio.PlayOneShot(carSound);
-        sceneLoder.LoadEndScene();
+        //audio.PlayOneShot(carSound);
+        SceneLoader.Instance.LoadEndScene();
     }
 
 }
