@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+<<<<<<< HEAD
     public int score { get; private set; }
     public int coins { get; private set; }
     
@@ -15,7 +16,18 @@ public class GameManager : MonoBehaviour
     private GameObject startPlayerPos;
 
     private const string MUSIC_KEY = "MUSIC_KEY_NO_OR_OFF";
+=======
+    public int score;
+    public int coins;
 
+    public GameObject startPlayerPos;
+    public Text textScore;
+    public Text textCoin;
+
+    float gameDistance = 0;
+>>>>>>> parent of e6eb1d1... Fix snapping, change Jump
+
+    Player player;
 
 
 
@@ -36,6 +48,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+<<<<<<< HEAD
+=======
+        player = FindObjectOfType<Player>();
+>>>>>>> parent of e6eb1d1... Fix snapping, change Jump
 
         score = 0;
         coins = 0;
