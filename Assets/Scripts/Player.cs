@@ -1,120 +1,160 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using DG.Tweening;
+using Lean.Touch;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public int stepPoint;
-    [SerializeField] float moveTime = 0.8f;
-    [SerializeField] float jumpForce = 0.6f;
+    [Header("Settings")]
+    [SerializeField] float moveTime = 0.5f;
+    [SerializeField] float jumpPower = 1f;
+    [SerializeField] float reloadLevelDelay = 1f;
 
-    [SerializeField] TerrainGeneration terrainGeneration;
-    [SerializeField] GameManager gm;
-    [SerializeField] AudioSource audioSource;
+    [Header("FX")]
+    [SerializeField] GameObject particleFXDeath;
 
-    bool input;
+    [Header("Sounds")]
+    [SerializeField] AudioClip deathSound;
+    
+    private TerrainGeneration terrainGeneration;
+    
+    float endPos;
+    bool allowInput;
+    
+    public static Player Instance { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
-        gm.NewGame();
-        input = true;
-    }
-
-    void Update()
-    {
-        if (!input)
+        if (Instance != null)
         {
-            return;
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
         }
 
-        KeyBoardInput();
+    }
+    
+  
+    
+    private void Start()
+    {
+        terrainGeneration = FindObjectOfType<TerrainGeneration>();
+        
+        //GameManager.Instance.NewGame();
+        allowInput = true;
+    }
+    
+    public void Die()
+    {
+        Destroy(gameObject);
+        Instantiate(particleFXDeath, transform.position, Quaternion.identity);
+        //AudioManager.Instance.PlaySound(deathSound);
 
+        SceneLoader.Instance.RestartScene();
     }
 
     public void MoveWithTap()
     {
-        Vector3 endPos = transform.position + Vector3.forward;
+        if (!allowInput) { return; }
 
-        MovePlayer(endPos);
-        audioSource.Play();
-
-        terrainGeneration.SpawnTerrain();
-        gm.AddScore(stepPoint);
-    }
-
-
-    public void Up()
-    {
-        Vector3 endPos = transform.position + Vector3.forward;
-
-        MovePlayer(endPos);
-        audioSource.Play();
-
-        terrainGeneration.SpawnTerrain();
-        gm.AddScore(stepPoint);
-    }
-
-    public void Down()
-    {
-        Vector3 endPos = transform.position + Vector3.back;
-
-        MovePlayer(endPos);
-
-        audioSource.Play();
-
-    }
-
-    public void Right()
-    {
-        Vector3 endPos = transform.position + Vector3.right;
-
-        MovePlayer(endPos);
+        Vector3 newPosition = transform.position + Vector3.forward; // new Vector (0, 0, 1)
+        MoveTo(newPosition, Vector3.forward);
         
-        audioSource.Play();
-
-    }
-
-    public void Left()
-    {
-        Vector3 endPos = transform.position + Vector3.left;
-
-        MovePlayer(endPos);
-        
-        GetComponent<AudioSource>().Play();
-
+        terrainGeneration.SpawnTerrain();
     }
 
 
-    void MovePlayer(Vector3 endPos)
+
+  
+
+    // Update is called once per frame
+    void Update()
     {
-        input = false;
-        transform.DOJump(endPos, jumpForce, 1, moveTime).OnComplete(ResetInput);
+        if (!allowInput)
+        {
+            //Exit
+            return;
+        }
 
-    }
-
-    void ResetInput()
-    {
-        input = true;
-    }
-
-
-    private void KeyBoardInput() //KeyBoard Move
-    {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            Up();
+            MoveForward();
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            Down();
+            MoveBack();
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            Right();
+            MoveRight();
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            Left();
+            MoveLeft();
         }
+    }
+
+    public void MoveLeft()
+    {
+        if (!allowInput)  { return; }
+
+        Vector3 newPosition = transform.position + Vector3.left;
+        MoveTo(newPosition, Vector3.left);
+    }
+
+    public void MoveRight()
+    {
+        if (!allowInput) { return; }
+
+        Vector3 newPosition = transform.position + Vector3.right;
+        MoveTo(newPosition, Vector3.right);
+    }
+
+    public void MoveBack()
+    {
+        if (!allowInput) { return; }
+
+        Vector3 newPosition = transform.position + Vector3.back;
+        MoveTo(newPosition, Vector3.back);
+    }
+
+    public void MoveForward()
+    {
+        if (!allowInput) { return; }
+
+        Vector3 newPosition = transform.position + Vector3.forward; // new Vector (0, 0, 1)
+        MoveTo(newPosition, Vector3.forward);
+        terrainGeneration.SpawnTerrain();
+    }
+    
+    void MoveTo(Vector3 newPosition, Vector3 direction)
+    {
+        RaycastHit hit;
+        
+        Debug.DrawRay(newPosition, Vector3.down, Color.green, 2f);
+
+        var hitObject = Physics.Raycast(transform.position, direction, out hit, 1f);
+        
+        if (hitObject && hit.collider.CompareTag("Coin"))
+        {
+            allowInput = false;
+            transform.DOJump(newPosition, jumpPower, 1, moveTime).OnComplete(ResetInput);
+        }
+        if (!hitObject)
+        {
+            allowInput = false;
+            transform.DOJump(newPosition, jumpPower, 1, moveTime).OnComplete(ResetInput);
+        }
+
+    }
+    
+    void ResetInput()
+    {
+        allowInput = true;
     }
 
 

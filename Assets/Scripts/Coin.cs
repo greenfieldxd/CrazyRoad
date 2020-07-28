@@ -9,13 +9,8 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-         GameManager gm = FindObjectOfType<GameManager>();
-
-        Player player = FindObjectOfType<Player>();
-        AudioSource audio = player.GetComponent<AudioSource>();
-
-        audio.PlayOneShot(coinSound);
-        gm.AddCoin();
+        //audio.PlayOneShot(coinSound);
+        GameManager.Instance.AddCoin();
         Destroy(gameObject);
     }
     

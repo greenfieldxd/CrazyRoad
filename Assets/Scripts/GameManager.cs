@@ -5,61 +5,57 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [HideInInspector] public int score { get; private set; }
-    [HideInInspector] public int coins { get; private set; }
-
-    [SerializeField] GameObject startPlayerPos;
+    public int score { get; private set; }
+    public int coins { get; private set; }
+    
     [SerializeField] Text textScore;
     [SerializeField] Text textCoin;
+    
+    private int gameDistance = 0;
+    private GameObject startPlayerPos;
 
-    [SerializeField]Player player;
-
-    float gameDistance = 0;
-
-
-
+    private const string MUSIC_KEY = "MUSIC_KEY_NO_OR_OFF";
 
 
-    private void Awake() //Fix more gamemanagers
+
+
+    public static GameManager Instance { get; private set; }
+
+    private void Awake()
     {
-        GameManager[] gameManagers = FindObjectsOfType<GameManager>();
-        if (gameManagers.Length > 1)
+        if (Instance != null)
         {
             Destroy(gameObject);
-            gameObject.SetActive(false);
         }
+        else
+        {
+            Instance = this;
+        }
+
     }
 
     private void Start()
     {
+
         score = 0;
         coins = 0;
-        textScore.text = "Score: " + score;
-        textCoin.text = "0";
 
-        UpdateSounds();
 
         DontDestroyOnLoad(gameObject);
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void AddScore(int score) // Add value to Score
 
     {
-        float currentPosition = Vector3.Distance(player.transform.position, startPlayerPos.transform.position);
+        float currentPosition = Vector3.Distance(Player.Instance.transform.position, startPlayerPos.transform.position);
 
         if (gameDistance < currentPosition)
         {
-            gameDistance = currentPosition;
+            gameDistance = (int) currentPosition;
 
             this.score += score;
-            textScore.text = "Score: " + this.score; // update Score on scene
+            //textScore.text = "Score: " + this.score; // update Score on scene
         }
 
     }
@@ -67,39 +63,12 @@ public class GameManager : MonoBehaviour
 
     public void AddCoin()
     {
-        coins += 1;
-        textCoin.text = " " + coins; // update Coins on scene
+        coins ++;
     }
 
-    public void NewGame()
-    {
-        player = FindObjectOfType<Player>();
+   
 
-        gameDistance = 0;
-        score = 0;
-        coins = 0;
-        textScore.text = "Score: " + score;
-        textCoin.text = "0";
-
-        Canvas canvas = GetComponentInChildren<Canvas>();
-        canvas.enabled = true;
-    }
-
-    void UpdateSounds()
-    {
-        int soundParam = PlayerPrefs.GetInt("Music", 1);
-
-        if (soundParam == 0)
-        {
-            AudioSource music = GetComponentInChildren<AudioSource>();
-            music.enabled = false;
-        }
-        else if(soundParam == 1)
-        {
-            AudioSource music = GetComponentInChildren<AudioSource>();
-            music.enabled = true;
-        }
-    }
+  
     
 
 }
